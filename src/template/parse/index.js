@@ -67,6 +67,9 @@ const parseTemplate = function (tmpl, doc) {
     // list.push(json)
     json = null
   }
+  if (doc != null) {
+    doc._missing_templates.push(tmpl.name)
+  }
   //..then remove it
   return ['', json]
 }

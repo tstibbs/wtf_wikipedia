@@ -47,8 +47,8 @@ class Document {
       categories: [],
       sections: [],
       coordinates: [],
+      missing_templates: []
     }
-    // this._missing_templates = {} //for stats+debugging purposes
 
     Object.keys(props).forEach((k) => {
       Object.defineProperty(this, '_' + k, {
@@ -78,6 +78,10 @@ class Document {
 
     //parse all the headings, and their texts/sentences
     this._sections = parse.section(this)
+
+    if (options.strictMode === true && this._missing_templates.length > 0) {
+      throw new Error(`Some templates not parseable, text will be empty for these elements. Disable strict mode to silently skip this template. Missing templates: ${this._missing_templates.join(', ')}`)
+    }
   }
 
   /**
