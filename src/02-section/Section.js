@@ -1,6 +1,5 @@
 import toJSON from './toJson.js'
 import setDefaults from '../_lib/setDefaults.js'
-// import parseHeading from './heading.js'
 import parseTable from '../table/index.js'
 import parseParagraphs from '../03-paragraph/index.js'
 import parseTemplates from '../template/index.js'
