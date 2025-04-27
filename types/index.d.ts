@@ -99,6 +99,7 @@ declare class Infobox {
   text(): string
   type(): string
   wikitext(): string
+  coordinates(): object | null
 }
 
 declare class Template {
@@ -209,7 +210,7 @@ declare function fetch(
 
 declare function wtf(wiki: string, options?: object): Document
 declare namespace wtf {
-  var version : string
+  var version: string
   export { fetch }
   export { extend }
   export { extend as plugin }

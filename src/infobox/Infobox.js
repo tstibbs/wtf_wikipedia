@@ -98,6 +98,17 @@ const methods = {
       return h
     }, {})
   },
+  coordinates: function () {
+    let lat = this.get('latitude')?.json()?.number
+    let lng = this.get('longitude')?.json()?.number
+    //TODO: support i18n names
+    // let lat = inf.get('breitengrad')?.json()?.number
+    // let lng = inf.get('längengrad')?.json()?.number
+    if (lat && lng) {
+      return { template: 'infobox/lat-long', lat, lng }
+    }
+    return null
+  },
 }
 //aliases
 Object.keys(methods).forEach((k) => {

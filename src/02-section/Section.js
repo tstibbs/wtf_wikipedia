@@ -225,7 +225,13 @@ class Section {
    */
   coordinates() {
     let arr = [...this.templates('coord'), ...this.templates('coor')]
-    return arr.map((tmpl) => tmpl.json())
+    let list = arr.map((tmpl) => tmpl.json())
+    //try to get coord from infoboxes
+    let inf = this.infoboxes()[0]
+    if (inf && inf.coordinates()) {
+      list.push(inf.coordinates())
+    }
+    return list
   }
 
   /**
