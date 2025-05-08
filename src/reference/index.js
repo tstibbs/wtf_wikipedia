@@ -31,7 +31,7 @@ const parseRefs = function (section) {
   let references = []
   let wiki = section._wiki
 
-  wiki = wiki.replace(/ ?<ref>([\s\S]{0,1800}?)<\/ref> ?/gi, function (all, txt) {
+  wiki = wiki.replace(/ ?<ref>([\s\S]{0,4000}?)<\/ref> ?/gi, function (all, txt) {
     let found = false
     // there could be more than 1 template inside a <ref><ref>
     let arr = getTemplates(txt)
