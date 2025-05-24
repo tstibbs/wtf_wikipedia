@@ -191,22 +191,26 @@ declare class Sentence {
 
 export default wtf
 
-type fetchDefaults = {
+type FetchOptions = {
   path?: string | undefined;
   wiki?: string | undefined;
   domain?: string | undefined;
   follow_redirects?: boolean | undefined;
   lang?: string | undefined;
-  title?: string | number | Array<string> | Array<number> | undefined;
   "Api-User-Agent"?: string | undefined;
 };
 
-type fetchCallback = (error: any, response: (null | Document | Document[])) => any;
+type FetchCallback<T> = (...args: [err: Error, result: null] | [err: null, result: FetchResult<T>]) => void;
 
-declare function fetch(
-  title: string | number | Array<number> | Array<string>,
-  options?: fetchDefaults | undefined, callback?: fetchCallback
-): Promise<null | Document | Document[]>;
+declare function fetch<T extends string | number | string[] | number[] | URL>(
+  title: T,
+  options?: FetchOptions | undefined,
+  callback?: FetchCallback<T>
+): Promise<FetchResult<T>>;
+
+type FetchResult<T> = T extends unknown[]
+  ? Documents[]
+  : Document | null;
 
 declare function wtf(wiki: string, options?: object): Document
 declare namespace wtf {

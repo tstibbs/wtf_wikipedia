@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import unfetch from 'isomorphic-unfetch'
 import parseUrl from './parseUrl.js'
 import makeUrl from './makeUrl.js'
@@ -54,6 +53,9 @@ const fetch = function (title, options, callback) {
   if (typeof options === 'string') {
     options = { lang: options }
   }
+  if (typeof title.href === 'string') {
+    title = title.href
+  }
   options = { ...defaults, ...options }
   options.title = title
 
@@ -64,25 +66,22 @@ const fetch = function (title, options, callback) {
   const url = makeUrl(options)
   const headers = makeHeaders(options)
 
-  return unfetch(url, headers)
+  const promise = unfetch(url, headers)
     .then((res) => res.json())
     .then((res) => {
       if (!res) {
         throw new Error(`No JSON Data Found For ${url}`)
       }
-      let data = getResult(res, options)
-      data = parseDoc(data, title)
-      if (callback) {
+      const result = getResult(res, options)
+      const data = parseDoc(result, title)
+      if (typeof callback === 'function') {
         callback(null, data)
       }
       return data
     })
-    .catch((e) => {
-      console.error(e)
-      if (callback) {
-        callback(e, null)
-      }
-      return null
-    })
+
+  return typeof callback === 'function'
+    ? promise.catch((e) => callback(e, null))
+    : promise
 }
 export default fetch

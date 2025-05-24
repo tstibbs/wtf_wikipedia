@@ -21,15 +21,15 @@ test('should filter out all the undefined values', (t) => {
   t.end()
 })
 
-test('should return null if there are no document', (t) => {
+test('should return empty if there are no documents', (t) => {
   const result = parseDoc([], [])
-  t.equal(result, null)
+  t.deepEqual(result, [])
   t.end()
 })
 
-test('should return null if there are no document', (t) => {
+test('should return empty if there are no documents', (t) => {
   const result = parseDoc([undefined], ['not hallo'])
-  t.equal(result, null)
+  t.deepEqual(result, [])
   t.end()
 })
 
