@@ -53,8 +53,9 @@ const parseList = function (paragraph) {
     if (isList(lines[i])) {
       let sub = grabList(lines, i)
       if (sub.length > 0) {
-        lists.push(sub)
         i += sub.length - 1
+        // sub = sub.filter((a) => a && has_word.test(a))
+        lists.push(sub)
       }
     } else {
       theRest.push(lines[i])
