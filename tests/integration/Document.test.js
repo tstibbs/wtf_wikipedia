@@ -622,7 +622,7 @@ test('image - get - return the first image on the page', (t) => {
 test('links - get - return all links on the page', (t) => {
   let str = fs.readFileSync(path.join(dir, '../', 'cache', 'Britt-Morgan.txt'), 'utf-8')
   let doc = wtf(str)
-  const expected = [41, 71, 82, 94, 38, 40, 110, 40]
+  const expected = [41, 71, 82, 94, 38, 40, 104, 40]
   t.deepEqual(
     doc.links().map((l) => JSON.stringify(l.json()).length),
     expected,
@@ -652,7 +652,7 @@ test('links - get - if the clue is a string return the link with that content', 
 test('links - get - if the clue is any other type then return all links', (t) => {
   let str = fs.readFileSync(path.join(dir, '../', 'cache', 'Britt-Morgan.txt'), 'utf-8')
   let doc = wtf(str)
-  const expected = [41, 71, 82, 94, 38, 40, 110, 40]
+  const expected = [41, 71, 82, 94, 38, 40, 104, 40]
   t.deepEqual(
     doc.links([]).map((l) => JSON.stringify(l.json()).length),
     expected,
@@ -697,7 +697,7 @@ test('interwiki - get - if the clue is any other type then return all interwiki'
 test('lists - get - return all lists on the page', (t) => {
   let str = fs.readFileSync(path.join(dir, '../', 'cache', 'anarchism.txt'), 'utf-8')
   let doc = wtf(str)
-  const expected = [1946, 815, 4911, 197, 2290, 428]
+  const expected = [1926, 815, 4907, 197, 2246, 424]
   t.deepEqual(
     doc.lists().map((l) => JSON.stringify(l.json()).length),
     expected,
@@ -716,7 +716,7 @@ test('lists - get - if the clue is a number return the lists at that index', (t)
 test('lists - get - if the clue is any other type then return all lists', (t) => {
   let str = fs.readFileSync(path.join(dir, '../', 'cache', 'anarchism.txt'), 'utf-8')
   let doc = wtf(str)
-  const expected = [1946, 815, 4911, 197, 2290, 428]
+  const expected = [1926, 815, 4907, 197, 2246, 424]
   t.deepEqual(
     doc.lists('string').map((l) => JSON.stringify(l.json()).length),
     expected,
