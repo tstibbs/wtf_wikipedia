@@ -109,6 +109,6 @@ test('empty lists', function (t) {
 `
   let doc = wtf(str)
   t.equal(doc.lists().length, 1, 'got 1 list')
-  t.equal(doc.text(), 'Show Just once.', 'list text output')
+  t.equal(doc.text(), '\n * Show Just once.', 'list text output')
   t.end()
 })

@@ -39,7 +39,7 @@ const grabList = function (lines, i) {
       break
     }
   }
-  sub = sub.filter((a) => a && has_word.test(a))
+  // sub = sub.filter((a) => a && has_word.test(a))
   sub = cleanList(sub)
   return sub
 }
@@ -54,7 +54,7 @@ const parseList = function (paragraph) {
       let sub = grabList(lines, i)
       if (sub.length > 0) {
         i += sub.length - 1
-        // sub = sub.filter((a) => a && has_word.test(a))
+        sub = sub.filter((s) => s.data.text !== '')
         lists.push(sub)
       }
     } else {
