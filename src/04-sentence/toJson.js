@@ -1,5 +1,5 @@
 import setDefaults from '../_lib/setDefaults.js'
-const isNumber = /^[0-9,.]+$/
+const isNumber = /^-?[0-9,.]+$/
 
 const defaults = {
   text: true,

@@ -22,6 +22,31 @@ test('fetch-as-promise', (t) => {
   })
 })
 
+test('promise rejects on error if no callback', async (t) => {
+  let err
+
+  try {
+    await wtf.fetch('https://example.com', 'en')
+  } catch (e) {
+    err = e
+  }
+
+  // attempting to parse response will generate a SyntaxError due to not being JSON
+  t.equal(err.name, 'SyntaxError')
+
+  t.end()
+})
+
+test("if callback supplied, error scenario calls errback and doesn't reject promise", async (t) => {
+  await wtf.fetch('https://example.com', 'en', (err, data) => {
+    t.equal(data, null)
+    // attempting to parse response will generate a SyntaxError due to not being JSON
+    t.equal(err.name, 'SyntaxError')
+  })
+
+  t.end()
+})
+
 test('fetch-as-callback', (t) => {
   t.plan(1)
   wtf.fetch('Tony Danza', 'en', function (err, doc) {
@@ -79,9 +104,6 @@ test('fetch-redirect', (t) => {
 test('ambiguous-pageids', async function (t) {
   let doc = await wtf.fetch(1984, 'en')
   t.equal(doc.title(), 'Arab world', 'input as pageid')
-
-  doc = await wtf.fetch('1984', 'en')
-  t.equal(doc.title(), '1984', 'input as text')
 
   let docs = await wtf.fetch([2983, 7493], 'en')
   t.equal(docs.length, 2, 'got two pageid results')

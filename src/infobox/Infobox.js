@@ -2,6 +2,7 @@ import toJson from './toJson.js'
 import Image from '../image/Image.js'
 import { isArray } from '../_lib/helpers.js'
 import Sentence from '../04-sentence/Sentence.js'
+import latLngs from '../_data/lat-lngs.js'
 
 const normalize = (str = '') => {
   str = str.toLowerCase()
@@ -97,6 +98,18 @@ const methods = {
       }
       return h
     }, {})
+  },
+  coordinates: function () {
+    // loop through i18n latitude and longitude properties
+    for (let i = 0; i < latLngs.length; i += 1) {
+      let a = latLngs[i]
+      let lat = this.get(a[0])?.json()?.number
+      let lng = this.get(a[1])?.json()?.number
+      if (lat && lng) {
+        return { template: 'infobox/lat-long', lat, lng }
+      }
+    }
+    return null
   },
 }
 //aliases

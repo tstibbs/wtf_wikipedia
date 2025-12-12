@@ -3,6 +3,15 @@
 
 -->
 
+#### 10.4.1 [Dec 2025]
+- **[fix]** - bare citation template parsing #591
+- **[fix]** - array input in wtf.fetch #590
+- **[fix]** - support longer citations #589
+- **[new]** - more obscure html escaping
+- **[new]** - add infobox coordinates method #588 
+- **[update]** - dependencies
+
+
 #### 10.4.0 [Feb 2025]
 - **[update]** -  export esm/require syntax
 - **[update]** -  #581 - use export default to fix ESM incompatibility

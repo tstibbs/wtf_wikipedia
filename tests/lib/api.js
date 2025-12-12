@@ -387,6 +387,12 @@ export default {
       "returns": "Array",
       "example": "",
       "description": "generate some generic 'stringifyable' data for this infobox"
+    },
+    {
+      "name": "coordinates",
+      "returns": "Object",
+      "example": "",
+      "description": "get latitude and longitude from this infobox"
     }
   ],
   "List": [
