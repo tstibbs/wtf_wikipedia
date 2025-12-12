@@ -697,7 +697,6 @@ test('interwiki - get - if the clue is any other type then return all interwiki'
 test('lists - get - return all lists on the page', (t) => {
   let str = fs.readFileSync(path.join(dir, '../', 'cache', 'anarchism.txt'), 'utf-8')
   let doc = wtf(str)
-  console.log(doc.lists().map(l => l.json()))
   const expected = [1926, 815, 4907, 2246]
   t.deepEqual(
     doc.lists().map((l) => JSON.stringify(l.json()).length),
