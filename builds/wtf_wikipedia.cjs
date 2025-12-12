@@ -2306,6 +2306,15 @@
     // some html escaping
     wiki = wiki.replace(/&nbsp;/g, ' ');
     wiki = wiki.replace(/&ndash;/g, '–');
+    wiki = wiki.replace(/&mdash;/g, '—');
+    wiki = wiki.replace(/&amp;/g, '&');
+    wiki = wiki.replace(/&quot;/g, '"');
+    wiki = wiki.replace(/&apos;/g, "'");
+    wiki = wiki.replace(/&copy;/g, '©');
+    wiki = wiki.replace(/&reg;/g, '®');
+    wiki = wiki.replace(/&trade;/g, '™');
+    // wiki = wiki.replace(/&lt;/g, '<')
+    // wiki = wiki.replace(/&gt;/g, '>')
 
     //give it the inglorious send-off it deserves..
     wiki = kill_xml(wiki);
@@ -2615,7 +2624,7 @@
     return obj
   };
 
-  const isNumber = /^[0-9,.]+$/;
+  const isNumber = /^-?[0-9,.]+$/;
 
   const defaults$7 = {
     text: true,
@@ -4085,7 +4094,6 @@
   const list_reg = /^[#*:;|]+/;
   const bullet_reg = /^\*+[^:,|]{4}/;
   const number_reg = /^ ?#[^:,|]{4}/;
-  const has_word = /[\p{Letter}_0-9\]}]/iu;
 
   // does it start with a bullet point or something?
   const isList = function (line) {
@@ -4121,7 +4129,7 @@
         break
       }
     }
-    sub = sub.filter((a) => a && has_word.test(a));
+    // sub = sub.filter((a) => a && has_word.test(a))
     sub = cleanList(sub);
     return sub
   };
@@ -4135,8 +4143,9 @@
       if (isList(lines[i])) {
         let sub = grabList(lines, i);
         if (sub.length > 0) {
-          lists.push(sub);
           i += sub.length - 1;
+          sub = sub.filter((s) => s.data.text !== '');
+          lists.push(sub);
         }
       } else {
         theRest.push(lines[i]);
@@ -9407,6 +9416,43 @@
     return json
   };
 
+  var latLngs = [
+    ['latitude', 'longitude'], //english
+    ['lat', 'lng'],
+    ['breitengrad', 'längengrad'], //german
+    ['latitud', 'longitud'], //spanish
+    ['zeměpisná šířka', 'zeměpisná délka'], //czech
+    ['шир', 'долг'], //russian
+  ];
+
+  // lat_d: { text: '43', number: 43 },
+  // lat_m: { text: '42', number: 42 },
+  // lat_s: { text: '59', number: 59 },
+  // lat_ns: { text: 'S' },
+  // long_d: { text: '79', number: 79 },
+  // long_m: { text: '20', number: 20 },
+  // long_s: { text: '26', number: 26 },
+  // long_ew: { text: 'Z' },
+
+
+  // latd: { text: '43', number: 43 },
+  // latm: { text: '42', number: 42 },
+  // lats: { text: '0', number: 0 },
+  // latns: { text: 'N' },
+  // longd: { text: '79', number: 79 },
+  // longm: { text: '24', number: 24 },
+  // longs: { text: '0', number: 0 },
+  // longew: { text: 'W' },
+
+  // gjer_g: { text: '43', number: 43 },
+  // gjer_m: { text: '42', number: 42 },
+  // gjer_s: { text: '0', number: 0 },
+  // gjer_dr: { text: 'N' },
+  // gjat_g: { text: '79', number: 79 },
+  // gjat_m: { text: '24', number: 24 },
+  // gjat_s: { text: '0', number: 0 },
+  // gjat_dr: { text: 'W' },
+
   const normalize = (str = '') => {
     str = str.toLowerCase();
     str = str.replace(/[-_]/g, ' ');
@@ -9501,6 +9547,18 @@
         }
         return h
       }, {})
+    },
+    coordinates: function () {
+      // loop through i18n latitude and longitude properties
+      for (let i = 0; i < latLngs.length; i += 1) {
+        let a = latLngs[i];
+        let lat = this.get(a[0])?.json()?.number;
+        let lng = this.get(a[1])?.json()?.number;
+        if (lat && lng) {
+          return { template: 'infobox/lat-long', lat, lng }
+        }
+      }
+      return null
     },
   };
   //aliases
@@ -9725,7 +9783,7 @@
     let references = [];
     let wiki = section._wiki;
 
-    wiki = wiki.replace(/ ?<ref>([\s\S]{0,1800}?)<\/ref> ?/gi, function (all, txt) {
+    wiki = wiki.replace(/ ?<ref>([\s\S]{0,4000}?)<\/ref> ?/gi, function (all, txt) {
       let found = false;
       // there could be more than 1 template inside a <ref><ref>
       let arr = findFlat(txt);
@@ -10275,7 +10333,13 @@
      */
     coordinates() {
       let arr = [...this.templates('coord'), ...this.templates('coor')];
-      return arr.map((tmpl) => tmpl.json())
+      let list = arr.map((tmpl) => tmpl.json());
+      //try to get coord from infoboxes
+      let inf = this.infoboxes()[0];
+      if (inf && inf.coordinates()) {
+        list.push(inf.coordinates());
+      }
+      return list
     }
 
     /**
@@ -11303,29 +11367,14 @@
    * @private
    * @param {Array} res
    * @param {string | number | Array<number> | Array<string>} title
-   * @returns {null| Document | Document[]} null if there are no results or Document if there is one responses and Document array if there are multiple responses
+   * @returns {null | Document | Document[]} `Document | null` if `title` is scalar, `or Document[]` if `title` is an array
    */
   const parseDoc = function (res, title) {
-    res = res || [];
-    // filter out undefined
-    res = res.filter((o) => o);
+    const results = (res ?? [])
+      .filter((o) => o != null)
+      .map(o => new Document(o.wiki, o.meta));
 
-    // put all the responses into Document formats
-    let docs = res.map((o) => {
-      return new Document(o.wiki, o.meta)
-    });
-
-    // if the list is empty than there are no results
-    if (docs.length === 0) {
-      return null
-    }
-
-    // if there is only one response then we can get it out of the array
-    if (!isArray(title) && docs.length === 1) {
-      return docs[0]
-    }
-
-    return docs
+    return isArray(title) ? results : results[0] ?? null
   };
 
   /**
@@ -11359,7 +11408,6 @@
     }
   };
 
-  /* eslint-disable no-console */
   const isUrl = /^https?:\/\//;
 
   /**
@@ -11409,6 +11457,9 @@
     if (typeof options === 'string') {
       options = { lang: options };
     }
+    if (typeof title.href === 'string') {
+      title = title.href;
+    }
     options = { ...defaults, ...options };
     options.title = title;
 
@@ -11419,29 +11470,26 @@
     const url = makeUrl(options);
     const headers = makeHeaders(options);
 
-    return unfetch(url, headers)
+    const promise = unfetch(url, headers)
       .then((res) => res.json())
       .then((res) => {
         if (!res) {
           throw new Error(`No JSON Data Found For ${url}`)
         }
-        let data = getResult(res, options);
-        data = parseDoc(data, title);
-        if (callback) {
+        const result = getResult(res, options);
+        const data = parseDoc(result, title);
+        if (typeof callback === 'function') {
           callback(null, data);
         }
         return data
-      })
-      .catch((e) => {
-        console.error(e);
-        if (callback) {
-          callback(e, null);
-        }
-        return null
-      })
+      });
+
+    return typeof callback === 'function'
+      ? promise.catch((e) => callback(e, null))
+      : promise
   };
 
-  var version = '10.4.0';
+  var version = '10.4.1';
 
   /* eslint-disable no-console */
 
