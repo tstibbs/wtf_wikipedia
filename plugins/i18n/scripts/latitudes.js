@@ -16,8 +16,8 @@ for (let i = 0; i < langs.length; i += 1) {
   }
   let coordinates = infobox.coordinates()
   if (!coordinates) {
-    console.log('\n\n--------------------------------', lang)
-    console.log(infobox.json())
+    //eslint-disable-next-line no-console
+    console.log(lang, infobox.json())
     continue
   }
   // console.log('✅', lang, coordinates)
