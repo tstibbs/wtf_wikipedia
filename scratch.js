@@ -4,31 +4,29 @@ wtf.plugin(plg)
 
 let str = `
 
-{| class="wikitable" style="text-align: center;"
-|+ Managerial record by team and tenure
-|-
-!rowspan="2"|Team
-!rowspan="2"|From
-!rowspan="2"|To
-!colspan="5"|Record
-|-
-!{{abbr|P|Matches played}}!!{{abbr|W|Matches won}}!!{{abbr|D|Matches drawn}}!!{{abbr|L|Matches lost}}!!{{abbr|Win %|Win percentage}}
-|-
-|align="left"|[[Arsenal F.C.|Arsenal]]
-|align="left"|22 December 2019{{efn|Arteta's appointment was announced on 20 December 2019 but did not take effect until 22 December. The intervening match against [[Everton F.C.|Everton]] was taken by interim head coach [[Freddie Ljungberg]].<ref>{{cite news |url=https://www.theguardian.com/football/2019/dec/20/arsenal-appoint-mikel-arteta-as-manager-to-replace-unai-emery |title=Mikel Arteta will not tolerate dissenters as he seeks to revive 'lost' Arsenal |first=Nick |last=Ames |newspaper=The Guardian |location=London |date=20 December 2019 |access-date=1 November 2021}}</ref>}}
-|align="left"|''Present''
-{{Win draw lose|352|213|66|73|decimals=1}}
-|-
-!colspan="3"|Total
-{{Win draw lose totals|352|213|66|73|decimals=1}}
-|}`
+<code>aboutconfig</code>
+
+* [http://www.mozilla.org/de/firefox/new/ Webbrowser Firefox auf Deutsch] – offizielle deutsche Website
+* [https://addons.mozilla.org/de/firefox/ Firefox-Erweiterungen] – offizielle Programm-Erweiterungen für den ''Mozilla Firefox''
+* [http://www.getpersonas.com/de/ Offizielle Personas-Erweiterungswebsite]
+* [https://support.mozilla.org/t5/Mozilla-Hilfe-Deutsch/ct-p/de?profile.language=de Offizielle Firefox-Onlinehilfe]
+* [https://marketplace.firefox.com/ Firefox Marketplace]
+* [https://www.mozilla.com/de/firefox/channel/ Offizielle Downloadseite von Entwicklerversionen des ''Mozilla Firefox'']
+* [https://www.camp-firefox.de/ Camp Firefox – Die Firefox-Community] – offizielle deutsche Firefox-Community-Website mit aktuellen Informationen rund um den Browser Firefox
+* [https://www.mozilla.org/de/firefox/organizations/ Firefox ESR] für Unternehmen und große Organisationen
+* [https://developer.mozilla.org/de/Firefox/Nutzung_in_Unternehmen/ Firefox in einem Unternehmen nutzen] enthält unter anderem Hinweise zur Konfiguration des ''Mozilla Firefox'' ähnlich der Möglichkeiten mit [[Microsoft Windows|Windows]] [[Group Policy Object]] (GPO)
+
+<references>
+</references>
+
+
+`
 
 let doc = wtf(str)
 // console.log(doc.references().map(r => r.json()))
 // console.log(doc.json().sections[0].lists)
-// console.log(doc.text())
+console.log(doc.lists())
 // const doc = await wtf.fetch("Mikel Arteta");
 // const tables = doc?.section('Managerial statistics').tables();
 
-const rows = doc.tables()[0].json();
-console.log("Rows: ", rows);
+// console.log("Rows: ", rows);

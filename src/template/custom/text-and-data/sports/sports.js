@@ -24,6 +24,16 @@ let sports = {
     return '\n| ' + obj.list.join('\n| ') + '\n| ' + winPercentage + '%'
   },
 
+  'win-loss record': function (tmpl, list) {
+    let obj = parse(tmpl, ['w', 'l', 't'])
+    list.push(obj)
+    let str = `${obj.w}`
+    if (obj.t || obj.d) {
+      str += `-${obj.t || obj.d}`
+    }
+    str += `-${obj.l}`
+    return str
+  },
 
   player: (tmpl, list) => {
     let res = parse(tmpl, ['number', 'country', 'name', 'dl'])

@@ -15,7 +15,7 @@ test('test-array', async function (t) {
     ['R', 'π'],
   ]
   for (const a of arr) {
-    let docs = await wtf.fetch(a)
+    let docs = await wtf.fetch(a).catch(Error)
     await delay(100)
     t.equal(docs.length, a.length, 'all-docs ')
   }

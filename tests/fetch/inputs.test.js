@@ -15,7 +15,7 @@ test('test-formats', async function (t) {
     `? (Enuff Z'nuff album)`,
     `& Juliet`,
     376725,
-    `https://en.m.wikipedia.org/wiki/Freebase`,
+    `https://en.m.wikipedia.org/wiki/Freebase_(database)`,
     `https://dota2.gamepedia.com/Abaddon`,
     `https://muppet.fandom.com/wiki/Debra_Spinney`,
   ]

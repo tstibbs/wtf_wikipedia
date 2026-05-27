@@ -116,10 +116,10 @@ test('List-methods-do-not-throw', (t) => {
   const mypages = ['al_Haytham', 'Mozilla-Firefox', 'toronto', 'toronto_star', 'jodie_emery', 'Allen-R.-Morris']
   mypages.forEach((page) => {
     const doc = wtf(readFile(page))
-    const list = doc.list()
+    const list = doc.lists()[0]
     docs.List.forEach((obj) => {
       const desc = obj.name + ' - ' + page
-      list[obj.name]()
+      list[obj.name](desc)
       t.ok(true, desc)
     })
   })
