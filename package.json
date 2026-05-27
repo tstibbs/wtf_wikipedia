@@ -42,7 +42,7 @@
     "watch": "NODE_NO_WARNINGS=1 amble ./scratch.js"
   },
   "bin": {
-    "wtf_wikipedia": "./cli.js"
+    "wtf_wikipedia": "cli.js"
   },
   "engines": {
     "node": ">=12.0.0"
