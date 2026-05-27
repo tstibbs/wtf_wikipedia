@@ -40,6 +40,7 @@ let aliases = {
   'pp.': 'p.',
   'iss.': 'vol.',
   h2d: 'hex2dec',
+  wdl: 'win draw lose',
 }
 
 //multiple aliases
