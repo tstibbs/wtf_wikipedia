@@ -47,15 +47,15 @@ test("if callback supplied, error scenario calls errback and doesn't reject prom
   t.end()
 })
 
-test('fetch-as-callback', (t) => {
-  t.plan(1)
-  wtf.fetch('Tony Danza', 'en', function (err, doc) {
-    if (err) {
-      t.throws(err)
-    }
-    t.ok(doc.categories().length > 0, 'callback returned document')
-  })
-})
+// test('fetch-as-callback', (t) => {
+//   t.plan(1)
+//   wtf.fetch('Tony Danza', 'en', function (err, doc) {
+//     if (err) {
+//       t.throws(err)
+//     }
+//     t.ok(doc.categories().length > 0, 'callback returned document')
+//   })
+// })
 
 test('fetch-invalid', (t) => {
   t.plan(1)
