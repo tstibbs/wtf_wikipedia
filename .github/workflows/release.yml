@@ -3,6 +3,8 @@ name: Release
 on:
   release:
     types: [created]
+permissions:
+  id-token: write
 
 jobs:
   release:
@@ -11,11 +13,11 @@ jobs:
     env:
       CI: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v6
         with:
-          node-version: 20.x
+          node-version: 26.x
 
       - name: cache dependencies
         uses: actions/cache@v1
@@ -28,6 +30,7 @@ jobs:
 
       - name: install
         run: |
+          npm install -g npm@latest
           npm i
           npm i --no-save eslint
 
@@ -50,6 +53,6 @@ jobs:
       - name: publish
         run: |
           echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > .npmrc
-          npm publish
+          npm publish --provenance
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

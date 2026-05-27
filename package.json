@@ -22,7 +22,10 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "repository": {
     "type": "git",
-    "url": "git://github.com/spencermountain/wtf_wikipedia.git"
+    "url": "git+https://github.com/spencermountain/wtf_wikipedia.git"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "man": [
     "./builds/man/wtf_wikipedia.1"
@@ -42,7 +45,7 @@
     "watch": "NODE_NO_WARNINGS=1 amble ./scratch.js"
   },
   "bin": {
-    "wtf_wikipedia": "./cli.js"
+    "wtf_wikipedia": "cli.js"
   },
   "engines": {
     "node": ">=12.0.0"
