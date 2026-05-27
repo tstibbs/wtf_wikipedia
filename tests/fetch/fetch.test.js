@@ -18,7 +18,7 @@ test('fetch-as-promise', (t) => {
     t.notEqual(doc.description(), null)
   })
   p.catch(function (e) {
-    t.throw(e)
+    t.throws(e)
   })
 })
 
@@ -51,7 +51,7 @@ test('fetch-as-callback', (t) => {
   t.plan(1)
   wtf.fetch('Tony Danza', 'en', function (err, doc) {
     if (err) {
-      t.throw(err)
+      t.throws(err)
     }
     t.ok(doc.categories().length > 0, 'callback returned document')
   })
@@ -67,7 +67,7 @@ test('fetch-invalid', (t) => {
     t.ok(doc === null, 'invalid character query returns null')
   })
   p.catch(function (e) {
-    t.throw(e)
+    t.throws(e)
   })
 })
 
@@ -81,7 +81,7 @@ test('fetch-missing', (t) => {
     t.ok(doc === null, 'fetching non-existent page returns null')
   })
   p.catch(function (e) {
-    t.throw(e)
+    t.throws(e)
   })
 })
 
@@ -96,7 +96,7 @@ test('fetch-redirect', (t) => {
     t.ok(doc.isRedirect(), 'got redirect')
   })
   p.catch(function (e) {
-    t.throw(e)
+    t.throws(e)
   })
 })
 

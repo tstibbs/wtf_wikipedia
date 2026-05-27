@@ -2245,7 +2245,7 @@ const ignore$1 = [
   'timeline',
   'maplink',
 ];
-const openTag = `< ?(${ignore$1.join('|')}) ?[^>]{0,200}?>`;
+const openTag = `< ?(${ignore$1.join('|')}) ?[^>]{0,200}>`;
 const closeTag = `< ?/ ?(${ignore$1.join('|')}) ?>`;
 const anyChar = '\\s\\S'; //including newline
 const noThanks = new RegExp(`${openTag}[${anyChar}]+?${closeTag}`, 'gi');
@@ -4441,6 +4441,7 @@ let aliases = {
   'pp.': 'p.',
   'iss.': 'vol.',
   h2d: 'hex2dec',
+  wdl: 'win draw lose',
 };
 
 //multiple aliases
@@ -9183,6 +9184,30 @@ let sports = {
     return ''
   },
 
+  'win draw lose': function (tmpl, list) {
+    let obj = parser(tmpl);
+    list.push(obj);
+    let draw = parseInt(obj.list[2]) || 0;
+    let lose = parseInt(obj.list[3]) || 0;
+    let win = parseInt(obj.list[1]) || 0;
+    let total = win + draw + lose;
+    let winPercentage = '';
+    if (total > 0) {
+      winPercentage = ((win / total) * 100).toFixed(1);
+    }
+    return '\n| ' + obj.list.join('\n| ') + '\n| ' + winPercentage + '%'
+  },
+
+  'win-loss record': function (tmpl, list) {
+    let obj = parser(tmpl, ['w', 'l', 't']);
+    list.push(obj);
+    let str = `${obj.w}`;
+    if (obj.t || obj.d) {
+      str += `-${obj.t || obj.d}`;
+    }
+    str += `-${obj.l}`;
+    return str
+  },
 
   player: (tmpl, list) => {
     let res = parser(tmpl, ['number', 'country', 'name', 'dl']);
@@ -11485,7 +11510,7 @@ const fetch = function (title, options, callback) {
     : promise
 };
 
-var version = '10.4.1';
+var version = '10.4.2';
 
 /* eslint-disable no-console */
 
