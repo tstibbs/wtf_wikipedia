@@ -22,7 +22,10 @@
   "author": "Spencer Kelly <spencermountain@gmail.com> (http://spencermounta.in)",
   "repository": {
     "type": "git",
-    "url": "git://github.com/spencermountain/wtf_wikipedia.git"
+    "url": "git+https://github.com/spencermountain/wtf_wikipedia.git"
+  },
+  "publishConfig": {
+    "provenance": true
   },
   "man": [
     "./builds/man/wtf_wikipedia.1"
