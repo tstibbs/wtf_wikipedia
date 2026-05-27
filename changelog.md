@@ -3,6 +3,11 @@
 
 -->
 
+#### 10.4.2 [May 2026]
+- **[fix]** - wdl template #595
+- **[fix]** - xml parsing issue
+- **[update]** - dependencies
+
 #### 10.4.1 [Dec 2025]
 - **[fix]** - bare citation template parsing #591
 - **[fix]** - array input in wtf.fetch #590
